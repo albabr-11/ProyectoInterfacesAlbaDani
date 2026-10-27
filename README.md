@@ -49,7 +49,7 @@ Añadir listeners o escuchas a los elementos (por ejemplo, detectar cuándo el u
 
 Manejadores de eventos : Contiene los métodos asociados a los clics de los botones (ej. agregarIncidencia(), eliminarIncidencia(), modificarEstado()), donde se captura la información introducida por el usuario, se valida y se actualiza la colección de datos de la aplicación.
 
-### **5\. Recursos de la Interfaz (dashboard.fxml y style.css)**
+### **4\. Recursos de la Interfaz (dashboard.fxml y style.css)**
 
 dashboard.fxml: Define mediante etiquetas XML la jerarquía y disposición de los elementos visuales (paneles, tablas, menús, campos de formulario) utilizando Scene Builder. El archivo se vincula directamente a MainController.java mediante el atributo fx:controller="ies.MainController".
 
