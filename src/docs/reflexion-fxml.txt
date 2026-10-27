@@ -1,0 +1,27 @@
+﻿Reflexión-fxml 
+Daniel Pérez y Alba Barrado
+* ¿Qué problema resuelve FXML en una aplicación JavaFX?
+• Orden (MVC): El diseño va en el archivo .fxml y la programación de los botones va en el archivo .java.
+• Diseño visual: Te permite usar la herramienta Scene Builder para arrastrar y soltar elementos sin tocar una sola línea de código.
+• Fácil de mantener: Si quieres cambiar de lugar un botón o modificar un texto, lo haces en el diseño sin riesgo de romper el funcionamiento interno de la aplicación.
+
+
+* ¿Qué información contiene un archivo .fxml?
+Contiene la descripción de la interfaz de usuario estructurada en formato XML , sin código lógico.
+* ¿Qué relación existe entre FXML y las clases JavaFX?
+El FXML es la estructura visual y las clases JavaFX es lo que hace que la interfaz cobre vida
+* ¿Qué función cumple FXMLLoader?
+FXMLoader lo que hace es leer el archivo .fxml y lo convierte en objetos reales de JavaFX en memoria para que se puedan mostrar en la pantalla. 
+* ¿Qué utilidad tienen fx:id y la anotación @FXML?
+FX:Id lo que hace es poner un nombre o identificador a un elemento de la interfaz. @fxml Es una etiqueta que indica a Java que esa variable o método está vinculado con un elemento del archivo FXML. 
+* ¿Qué papel tiene el controlador?
+Es la clase Java que gestiona la pantalla.Recibe las acciones del usuario, ejecuta la lógica necesaria y actualiza la interfaz en consecuencia.
+
+
+* ¿Qué aporta Scene Builder al proceso de diseño?
+Es una herramienta visual para diseñar interfaces.
+Permite arrastrar y soltar componentes para crear la pantalla sin necesidad de escribir el XML a mano, acelerando el diseño.
+
+
+* ¿Qué ha mejorado y qué no ha mejorado en vuestra aplicación después de la refactorización?
+Lo que ha mejorado es lo siguiente: La interfaz visual (FXML) y la lógica de negocio (Java) quedan separadas,el código Java es mucho más limpio, corto y fácil de leer, diseñar la vista con Scene Builder es más intuitivo y rápido. Pero hay cosas en las que no ha mejorado que son las siguientes: La aplicación no va a ejecutarse notablemente más rápido; de hecho, FXMLLoader añade un pequeño proceso de lectura al arrancar la pantalla y la refactorización cambia cómo se organiza el código por dentro, pero no añade nuevas funciones por sí sola ni corrige errores de lógica previa.

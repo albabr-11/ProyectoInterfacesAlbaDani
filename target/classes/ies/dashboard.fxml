@@ -75,8 +75,10 @@
 
             <HBox alignment="CENTER_RIGHT" spacing="10.0">
                <children>
-                  <Button fx:id="btnModificarSeleccionada" onAction="#handleModificar" styleClass="button-primary" text="Modificar Seleccionada" />
-                  <Button fx:id="btnEliminarSeleccionada" onAction="#handleEliminar" styleClass="button-danger" text="Eliminar Seleccionada" />
+                  <!-- Corregido: fx:id coincide exactamente con MainController.java -->
+                  <Button fx:id="ModificarSeleccionada" onAction="#handleModificar" styleClass="button-primary" text="Modificar Seleccionada" />
+                  <!-- Corregido: fx:id coincide exactamente con MainController.java -->
+                  <Button fx:id="EliminarSeleccionada" onAction="#handleEliminar" styleClass="button-danger" text="Eliminar Seleccionada" />
                </children>
             </HBox>
          </children>
@@ -87,4 +89,3 @@
       </Label>
    </children>
 </VBox>
-

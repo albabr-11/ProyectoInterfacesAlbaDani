@@ -11,7 +11,7 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         // Carga el archivo FXML desde los recursos igual que en la guía oficial
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("main_view.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("dashboard.fxml"));
         Parent root = loader.load();
         
         stage.setTitle("Gestión de Incidencias - Scene Builder & FXML");

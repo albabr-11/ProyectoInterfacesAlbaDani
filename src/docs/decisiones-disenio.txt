@@ -1,0 +1,12 @@
+﻿Decisiones de diseño 
+Daniel Pérez y Alba Barrado
+Durante el proceso de desarrollo del sistema de Gestión de Incidencias, se ha llevado a cabo una evolución desde el planteamiento inicial en papel (esquema) hasta la interfaz final implementada. Este proceso de revisión y mejora continua se ha guiado por el objetivo de ofrecer una experiencia más intuitiva, limpia y eficiente para los usuarios.
+Reorganización visual y optimización del espacio
+* Del diseño inicial: El esquema original planteaba una tabla tradicional de filas y columnas para mostrar las incidencias, junto con contadores numéricos en la parte superior y múltiples pantallas o ventanas flotantes superpuestas para añadir o ver detalles.
+* La versión final: Se ha sustituido la tabla clásica por un formato de tarjetas independientes para cada incidencia. Esta decisión se tomó para que la información clave (como el título, el estado, la prioridad, la fecha de actualización y el solicitante) destaque de un vistazo de forma más limpia, evitando la saturación visual propia de las tablas densas. Además, los contadores de estado se han reubicado en la parte inferior para dejar todo el protagonismo superior a la barra de búsqueda y al listado principal.
+Claridad en la jerarquía y acciones del usuario
+* Del diseño inicial: Los botones principales y secundarios se encontraban repartidos de manera estándar, y las opciones de estado y prioridad requerían menús desplegables extensos que ocupan bastante espacio.
+* La versión final: El botón de "+ Nueva Incidencia" se ha rediseñado con un color llamativo y se ha colocado en la esquina superior derecha, siguiendo los estándares visuales más reconocibles para facilitar una acción rápida. Del mismo modo, el uso de etiquetas de colores suaves para los estados (Abierta en rojo, En proceso en amarillo y Cerrada en verde) permite identificar la situación de cada incidencia de forma inmediata, reduciendo el esfuerzo cognitivo del usuario.
+Mejora en la accesibilidad a los detalles
+* Del diseño inicial: Se contemplaba una ventana independiente para ver y editar los detalles que podía interrumpir la navegación general.
+* La versión final: Cada tarjeta cuenta ahora con un botón de "Detalles" claramente visible y alineado a la derecha, lo que permite al usuario acceder a la información específica de esa incidencia de manera fluida y ordenada, manteniendo la coherencia visual en toda la pantalla.
