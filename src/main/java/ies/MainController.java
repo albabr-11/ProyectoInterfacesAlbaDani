@@ -8,8 +8,16 @@ import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.layout.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -30,8 +38,13 @@ public class MainController {
     @FXML private Button EliminarSeleccionada;
 
 
+
+
     private ObservableList<Incidencia> listaIncidencias;
     private FilteredList<Incidencia> listaFiltrada;
+    private ContadoresIncidencias contadores;
+
+
 
 
     @FXML
@@ -40,8 +53,12 @@ public class MainController {
         FiltroEstado.setValue("Estado");
 
 
+
+
         FiltroPrioridad.getItems().addAll("Prioridad", "Crítica", "Urgente", "Media", "Baja");
         FiltroPrioridad.setValue("Prioridad");
+
+
 
 
         listaIncidencias = FXCollections.observableArrayList(
@@ -51,8 +68,13 @@ public class MainController {
         );
 
 
+
+
         listaFiltrada = new FilteredList<>(listaIncidencias, p -> true);
         listViewIncidencias.setItems(listaFiltrada);
+        
+        //mejora añadida ra1.c -> para que las incidencias sean flexibles 
+        VBox.setVgrow(listViewIncidencias, Priority.ALWAYS);
 
 
         listViewIncidencias.setCellFactory(lv -> new ListCell<Incidencia>() {
@@ -69,6 +91,8 @@ public class MainController {
                     card.setStyle("-fx-background-color: white; -fx-border-color: #e2e8f0; -fx-border-radius: 6; -fx-background-radius: 6;");
 
 
+
+
                     VBox info = new VBox(4);
                     Label Nombre = new Label(inc.nombre);
                   Nombre.setStyle("-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #0f172a;");
@@ -78,6 +102,8 @@ public class MainController {
                    
                     info.getChildren().addAll(Nombre, Sub);
                     HBox.setHgrow(info, Priority.ALWAYS);
+
+
 
 
                     Label Estado = new Label(" " + inc.estado + " ");
@@ -92,13 +118,19 @@ public class MainController {
                     Estado.setStyle(estiloEstado);
 
 
+
+
                     Label Prioridad = new Label(" Prioridad: " + inc.prioridad + " ");
                     Prioridad.setStyle("-fx-background-color: #f1f5f9; -fx-text-fill: #475569; -fx-font-size: 11px; -fx-background-radius: 4; -fx-padding: 3 8;");
+
+
 
 
                     Button Detalles = new Button("Ver Detalles");
                     Detalles.setStyle("-fx-background-color: #eff6ff; -fx-text-fill: #2563eb; -fx-border-color: #bfdbfe; -fx-border-radius: 4; -fx-background-radius: 4; -fx-cursor: hand; -fx-font-weight: bold;");
                     Detalles.setOnAction(e -> abrirVentanaDetalles(inc));
+
+
 
 
                     card.getChildren().addAll(info, Estado, Prioridad, Detalles);
@@ -108,10 +140,14 @@ public class MainController {
         });
 
 
+
+
         Runnable aplicarFiltros = () -> {
             String textoBusqueda = Buscar.getText();
             String estadoSeleccionado = FiltroEstado.getValue();
             String prioridadSeleccionada = FiltroPrioridad.getValue();
+
+
 
 
             listaFiltrada.setPredicate(incidencia -> {
@@ -124,10 +160,14 @@ public class MainController {
                 }
 
 
+
+
                 boolean coincideEstado = true;
                 if (estadoSeleccionado != null && !estadoSeleccionado.equals("Estado")) {
                     coincideEstado = incidencia.estado.equalsIgnoreCase(estadoSeleccionado);
                 }
+
+
 
 
                 boolean coincidePrioridad = true;
@@ -136,9 +176,13 @@ public class MainController {
                 }
 
 
+
+
                 return coincideTexto && coincideEstado && coincidePrioridad;
             });
         };
+
+
 
 
         Buscar.textProperty().addListener((obs, oldV, newV) -> aplicarFiltros.run());
@@ -160,18 +204,16 @@ public class MainController {
                 EliminarSeleccionada.setDisable(!estaCerrada);
             }
         });
-
-
-        actualizarContadores();
+        //mejora ra1.e -> creamos objeto con nueva clase creada llamada ContadoresIncidencias 
+        //se han borrado todas las funciones que tengan que ver con los contadores y se han metido directamente en la clase ContadoresIncidencias.java
+        contadores = new ContadoresIncidencias(listaIncidencias, TotalNum, AbiertasNum, EnProcesoNum, CerradasNum);
     }
-
 
     @FXML
     private void handleNuevaIncidencia() {
         Stage ventanaCrear = new Stage();
         ventanaCrear.initModality(Modality.APPLICATION_MODAL);
         ventanaCrear.setTitle("Crear Nueva Incidencia");
-
 
         TextField Nombre = new TextField();
         TextArea textoDetalles = new TextArea();
@@ -185,10 +227,8 @@ public class MainController {
         ComboBox<String> Prioridad = new ComboBox<>(FXCollections.observableArrayList("Crítica", "Urgente", "Media", "Baja"));
         Prioridad.setValue("Media");
 
-
         Button Cancelar = new Button("Cancelar");
         Cancelar.setOnAction(e -> ventanaCrear.close());
-
 
         Button Anadir = new Button("Guardar Incidencia");
         Anadir.setStyle("-fx-background-color: #2563eb; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;");
@@ -203,7 +243,6 @@ public class MainController {
                     Solicitante.getText()
                 );
                 listaIncidencias.add(0, nueva);
-                actualizarContadores();
                 Feedback.setText("  Incidencia creada correctamente.");
                 ventanaCrear.close();
             } else {
@@ -211,10 +250,8 @@ public class MainController {
             }
         });
 
-
         HBox botones = new HBox(10, Cancelar, Anadir);
         botones.setAlignment(Pos.CENTER_RIGHT);
-
 
         VBox layout = new VBox(10,
             new Label("Nombre de la incidencia:"), Nombre,
@@ -227,10 +264,15 @@ public class MainController {
         layout.setPadding(new Insets(20));
         layout.setStyle("-fx-background-color: white;");
 
-
-        ventanaCrear.setScene(new Scene(layout, 440, 520));
+        Scene scene = new Scene(layout, 440, 520);
+        // mejora ra1.d -> corregido, enlazado bien con el css
+        if (getClass().getResource("style.css") != null) {
+            scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+        }
+        ventanaCrear.setScene(scene);
         ventanaCrear.showAndWait();
     }
+
 
 
     @FXML
@@ -248,12 +290,12 @@ public class MainController {
         if (seleccionada != null) {
             if (seleccionada.estado.equalsIgnoreCase("Cerrada") || seleccionada.estado.equalsIgnoreCase("Completada")) {
                 listaIncidencias.remove(seleccionada);
-                actualizarContadores();
                 Feedback.setText("  Incidencia eliminada del registro.");
             } else {
                 Feedback.setText("  Aviso: Solo se pueden eliminar incidencias en estado Cerrada.");
             }
         }
+
     }
 
 
@@ -261,7 +303,6 @@ public class MainController {
         Stage ventanaDetalles = new Stage();
         ventanaDetalles.initModality(Modality.APPLICATION_MODAL);
         ventanaDetalles.setTitle("Detalles de la Incidencia");
-
 
         TextField txtNombre = new TextField(inc.nombre);
         txtNombre.setEditable(false);
@@ -272,10 +313,8 @@ public class MainController {
         TextField Prioridad = new TextField(inc.prioridad);
         Prioridad.setEditable(false);
 
-
         Button Cerrar = new Button("Cerrar Ventana");
         Cerrar.setOnAction(e -> ventanaDetalles.close());
-
 
         VBox layout = new VBox(10,
             new Label("Nombre Incidencia"), txtNombre,
@@ -287,17 +326,19 @@ public class MainController {
         layout.setPadding(new Insets(20));
         layout.setStyle("-fx-background-color: white;");
 
-
-        ventanaDetalles.setScene(new Scene(layout, 440, 420));
+        Scene scene = new Scene(layout, 440, 420);
+       // mejora ra1.d -> corregido, enlazado bien con el css
+        if (getClass().getResource("style.css") != null) {
+            scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+        }
+        ventanaDetalles.setScene(scene);
         ventanaDetalles.showAndWait();
     }
-
 
     private void abrirVentanaModificar(Incidencia inc) {
         Stage ventanaModificar = new Stage();
         ventanaModificar.initModality(Modality.APPLICATION_MODAL);
         ventanaModificar.setTitle("Modificar Incidencia");
-
 
         TextField Nombre = new TextField(inc.nombre);
         TextArea textoDetalles = new TextArea(inc.detalles);
@@ -305,7 +346,6 @@ public class MainController {
         Estado.setValue(inc.estado);
         ComboBox<String> Prioridad = new ComboBox<>(FXCollections.observableArrayList("Crítica", "Urgente", "Media", "Baja"));
         Prioridad.setValue(inc.prioridad);
-
 
         Button Guardar = new Button("Guardar Cambios");
         Guardar.setOnAction(e -> {
@@ -319,12 +359,9 @@ public class MainController {
             if (index >= 0) {
                 listaIncidencias.set(index, inc);
             }
-           
-            actualizarContadores();
             Feedback.setText("  Cambios guardados para '" + inc.nombre + "'");
             ventanaModificar.close();
         });
-
 
         VBox layout = new VBox(10,
             new Label("Nombre Incidencia"), Nombre,
@@ -336,28 +373,13 @@ public class MainController {
         layout.setPadding(new Insets(20));
         layout.setStyle("-fx-background-color: white;");
 
-
-        ventanaModificar.setScene(new Scene(layout, 440, 460));
+        Scene scene = new Scene(layout, 440, 420);
+        // mejora ra1.d -> corregido, enlazado bien con el css
+        if (getClass().getResource("style.css") != null) {
+            scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+        }
+        ventanaModificar.setScene(scene);
         ventanaModificar.showAndWait();
     }
 
-
-    private void actualizarContadores() {
-        int total = listaIncidencias.size();
-        int abiertas = 0, enProceso = 0, cerradas = 0;
-
-
-        for (Incidencia i : listaIncidencias) {
-            String est = i.estado.toLowerCase();
-            if (est.contains("abierta")) abiertas++;
-            else if (est.contains("proceso")) enProceso++;
-            else if (est.contains("cerrada")) cerradas++;
-        }
-
-
-        TotalNum.setText(String.valueOf(total));
-        AbiertasNum.setText(String.valueOf(abiertas));
-        EnProcesoNum.setText(String.valueOf(enProceso));
-        CerradasNum.setText(String.valueOf(cerradas));
-    }
 }
